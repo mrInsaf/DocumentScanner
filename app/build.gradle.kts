@@ -41,6 +41,11 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":feature_document_details"))
+    implementation(project(":feature_document_reader"))
+    implementation(project(":feature_scanner"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
