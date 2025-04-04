@@ -98,31 +98,3 @@ fun ScannerScreen(
         }
     }
 }
-// QR-анализатор
-private class QRCodeAnalyzer(
-    private val onQrCodesDetected: (List<Barcode>) -> Unit
-) : ImageAnalysis.Analyzer {
-
-    private val scanner = BarcodeScanning.getClient(
-        BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-            .build()
-    )
-
-    @SuppressLint("UnsafeOptInUsageError")
-    override fun analyze(imageProxy: ImageProxy) {
-        val mediaImage = imageProxy.image ?: return
-        val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-
-        scanner.process(image)
-            .addOnSuccessListener { barcodes ->
-                onQrCodesDetected(barcodes)
-            }
-            .addOnFailureListener {
-                // Обработка ошибок
-            }
-            .addOnCompleteListener {
-                imageProxy.close()
-            }
-    }
-}
