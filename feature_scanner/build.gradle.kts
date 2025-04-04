@@ -37,8 +37,8 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    implementation ("androidx.activity:activity-compose:1.8.2")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
+
+    implementation (libs.barcode.scanning)
 
     implementation (libs.androidx.camera.core)
     implementation (libs.androidx.camera.camera2)

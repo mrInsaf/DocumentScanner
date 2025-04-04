@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
+import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +36,14 @@ class MainActivity : ComponentActivity() {
             println("Norm")
         }
 
+        val scannerViewModel by viewModels<ScannerViewModel>()
+
         enableEdgeToEdge()
         setContent {
             DocumentScannerTheme {
-                DocumentScannerApp()
+                DocumentScannerApp(
+                    scannerViewModel = scannerViewModel,
+                )
             }
         }
     }
@@ -52,7 +59,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun DocumentScannerApp() {
+fun DocumentScannerApp(
+    scannerViewModel: ScannerViewModel,
+) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -68,7 +77,11 @@ fun DocumentScannerApp() {
                 navController = navController,
             ) {
                 composable(Destination.SCANNER.route) {
-                    ScannerScreen()
+                    ScannerScreen(
+                        viewModel = scannerViewModel
+                    ) {
+                        println("data is: $it")
+                    }
                 }
 
                 composable(Destination.DOCUMENT_DETAILS.route) {
