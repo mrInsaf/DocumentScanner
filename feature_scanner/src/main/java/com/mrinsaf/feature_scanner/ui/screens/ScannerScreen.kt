@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mrinsaf.core.ui.screens.BasicScreen
 import com.mrinsaf.feature_scanner.R
@@ -31,25 +32,25 @@ import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
 
 @Composable
 fun ScannerScreen(
-    viewModel: ScannerViewModel = viewModel(),
-    onQRCodeScanned: (String) -> Unit
+    viewModel: ScannerViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }
-    val qrResult = viewModel.qrResult.collectAsState()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     // Инициализация камеры
     LaunchedEffect(Unit) {
         viewModel.initCamera(context, lifecycleOwner, previewView)
     }
 
+    println("uiState.value.qrResult: ${uiState.value.qrResult}")
+
     // Обработка результата сканирования
-    LaunchedEffect(qrResult) {
-        qrResult.let { value ->
-            onQRCodeScanned(value.toString())
-            viewModel.resetQRResult() // Сбрасываем состояние после обработки
-        }
+    LaunchedEffect(uiState.value.qrResult) {
+        println("yo")
+        val rawQrData = uiState.value.qrResult
+        viewModel.parseQrCode(rawQrData)
     }
 
     BasicScreen(
@@ -80,7 +81,27 @@ fun ScannerScreen(
                 )
             }
 
-            Text(text = "Содержиое кода: ${qrResult.value}")
+            if (uiState.value.parsedQr == null) {
+                Text(
+                    text = "QR код документа не пока найден",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Red
+                )
+            }
+            else {
+                Text(
+                    text = "QR код документа найден!",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Green
+                )
+            }
+
+            Button(
+                enabled = uiState.value.parsedQr != null,
+                onClick = { println("button clicked") }
+            ) {
+                Text("Посмотреть детали")
+            }
 
         }
     }
