@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
-import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +33,11 @@ class MainActivity : ComponentActivity() {
             println("Norm")
         }
 
-        val scannerViewModel by viewModels<ScannerViewModel>()
 
         enableEdgeToEdge()
         setContent {
             DocumentScannerTheme {
-                DocumentScannerApp(
-                    scannerViewModel = scannerViewModel,
-                )
+                DocumentScannerApp()
             }
         }
     }
@@ -59,13 +54,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DocumentScannerApp(
-    scannerViewModel: ScannerViewModel,
 ) {
     val navController = rememberNavController()
 
-    Scaffold(
-//        topBar = { TopBar() },
-    )    {
+    Scaffold {
         Column (
             modifier = Modifier
                 .fillMaxSize()
@@ -76,9 +68,7 @@ fun DocumentScannerApp(
                 navController = navController,
             ) {
                 composable(Destination.SCANNER.route) {
-                    ScannerScreen(
-                        viewModel = scannerViewModel
-                    ) {
+                    ScannerScreen {
                         println("data is: $it")
                     }
                 }

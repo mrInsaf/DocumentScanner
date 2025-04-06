@@ -24,13 +24,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mrinsaf.core.ui.screens.BasicScreen
 import com.mrinsaf.feature_scanner.R
 import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
 
 @Composable
 fun ScannerScreen(
-    viewModel: ScannerViewModel,
+    viewModel: ScannerViewModel = viewModel(),
     onQRCodeScanned: (String) -> Unit
 ) {
     val context = LocalContext.current
