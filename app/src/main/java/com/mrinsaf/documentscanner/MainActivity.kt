@@ -18,10 +18,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.mrinsaf.core.data.model.ScreenDestination
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
-import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,29 +67,29 @@ fun DocumentScannerApp(
                 .padding(it)
         ) {
             NavHost(
-                startDestination = Screens.Scanner,
+                startDestination = ScreenDestination.Scanner,
                 navController = navController,
             ) {
-                composable<Screens.Scanner> {
+                composable<ScreenDestination.Scanner> {
                     ScannerScreen {
                         println("data is: $it")
                     }
                 }
 
-                composable<Screens.DocumentDetails> {
-                    val args = it.toRoute<Screens.DocumentDetails>()
+                composable<ScreenDestination.DocumentDetailsDestination> {
+                    val args = it.toRoute<ScreenDestination.DocumentDetailsDestination>()
 
                     DocumentDetailsScreen(
-                        senderCode = args.senderCode,
-                        kksCode = args.kksCode,
-                        workType = args.workType,
-                        documentType = args.documentType,
-                        documentVersion = args.documentVersion,
-                        uploadDate = args.uploadDate,
+                        senderCode = args.data.senderCode,
+                        kksCode = args.data.kksCode,
+                        workType = args.data.workType,
+                        documentType = args.data.documentType,
+                        documentVersion = args.data.documentVersion,
+                        uploadDate = args.data.uploadDate,
                     )
                 }
 
-                composable<Screens.DocumentReader> {
+                composable<ScreenDestination.DocumentReader> {
 
                 }
             }
@@ -98,27 +98,3 @@ fun DocumentScannerApp(
 }
 
 
-//enum class Destination(val route: String) {
-//    SCANNER("scanner"),
-//    DOCUMENT_DETAILS("document_details"),
-//    DOCUMENT_READER("document_reader"),
-//}
-
-
-sealed class Screens() {
-    @Serializable
-    object Scanner: Screens()
-
-    @Serializable
-    data class DocumentDetails(
-        val senderCode: String,
-        val kksCode: String,
-        val workType: String,
-        val documentType: String,
-        val documentVersion: String,
-        val uploadDate: String,
-    )
-
-    @Serializable
-    data class DocumentReader(val documentTitle: String)
-}
