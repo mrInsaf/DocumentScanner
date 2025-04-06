@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.mrinsaf.feature_scanner.model.CameraController
+import com.mrinsaf.feature_scanner.data.hardware.CameraController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

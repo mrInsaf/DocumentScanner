@@ -1,4 +1,4 @@
-package com.mrinsaf.feature_scanner.model
+package com.mrinsaf.feature_scanner.data.hardware
 
 import android.content.Context
 import android.util.Log
