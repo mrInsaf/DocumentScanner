@@ -2,10 +2,14 @@ package com.mrinsaf.feature_scanner.ui.screens
 
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,8 +30,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mrinsaf.core.ui.components.MainButton
 import com.mrinsaf.core.ui.screens.BasicScreen
 import com.mrinsaf.feature_scanner.R
+import com.mrinsaf.feature_scanner.ui.components.ScanStatusText
 import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
 
 @Composable
@@ -38,19 +44,15 @@ fun ScannerScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val previewView = remember { PreviewView(context) }
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val qrResult = uiState.value.qrResult
+    val parsedQr = uiState.value.parsedQr
 
-    // Инициализация камеры
     LaunchedEffect(Unit) {
         viewModel.initCamera(context, lifecycleOwner, previewView)
     }
 
-    println("uiState.value.qrResult: ${uiState.value.qrResult}")
-
-    // Обработка результата сканирования
-    LaunchedEffect(uiState.value.qrResult) {
-        println("yo")
-        val rawQrData = uiState.value.qrResult
-        viewModel.parseQrCode(rawQrData)
+    LaunchedEffect(qrResult) {
+        viewModel.parseQrCode(qrResult)
     }
 
     BasicScreen(
@@ -59,7 +61,9 @@ fun ScannerScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+//                .border(width = 2.dp, color = Color.Red)
         ) {
             Text(
                 text = stringResource(R.string.scan_code),
@@ -81,26 +85,21 @@ fun ScannerScreen(
                 )
             }
 
-            if (uiState.value.parsedQr == null) {
-                Text(
-                    text = "QR код документа не пока найден",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Red
-                )
-            }
-            else {
-                Text(
-                    text = "QR код документа найден!",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Green
-                )
-            }
-
-            Button(
-                enabled = uiState.value.parsedQr != null,
-                onClick = { println("button clicked") }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxHeight(0.5f)
             ) {
-                Text("Посмотреть детали")
+                ScanStatusText(parsedQr = parsedQr)
+
+                Spacer(Modifier.height(12.dp))
+
+                MainButton(
+                    text = "Посмотреть детали",
+                    enabled = parsedQr != null,
+                    onClick = { println("button clicked") }
+                )
             }
 
         }
