@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -27,6 +28,9 @@ import com.mrinsaf.core.domain.model.ScreenDestination
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
@@ -35,6 +39,19 @@ class MainActivity : ComponentActivity() {
 
         val apiService = RetrofitClient.documentApiService
         val repository = DocumentRepositoryImpl(apiService)
+
+        lifecycleScope.launch {
+            try {
+                repository.login(
+                    login = "zxc",
+                    password = "zxc"
+                )
+                println("login successful")
+            }
+            catch (exc: Exception) {
+                println("login failed: $exc")
+            }
+        }
 
         if (!hasPermissions()) {
             ActivityCompat.requestPermissions(
