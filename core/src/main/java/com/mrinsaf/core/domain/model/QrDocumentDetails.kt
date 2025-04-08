@@ -1,10 +1,10 @@
 package com.mrinsaf.core.domain.model
 
-import com.mrinsaf.core.data.repository.DocWorkTypeRepository
+import com.mrinsaf.core.data.repository.local.DocWorkTypeRepository
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DocumentDetails(
+data class QrDocumentDetails(
     val personCode: Int,
     val kksCode: String,
     val workType: String? = null,
