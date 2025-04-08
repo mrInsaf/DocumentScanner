@@ -95,8 +95,8 @@ fun DocumentScannerApp(
                     DocumentDetailsScreen(
                         personCode = data.personCode,
                         kksCode = data.kksCode,
-                        workType = data.workType,
-                        docType = data.docType,
+                        workType = data.workTypeDescription,
+                        docType = data.docTypeDescription,
                         versionPrefix = data.versionPrefix,
                         version = data.version,
                         dateInput = data.dateInput,
