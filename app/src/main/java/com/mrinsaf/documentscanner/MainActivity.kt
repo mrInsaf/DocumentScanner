@@ -88,16 +88,19 @@ fun DocumentScannerApp(
                     typeMap = mapOf(
                         typeOf<DocumentDetails>() to DocumentDetailsNavType
                     )
-                ) {
-                    val args = it.toRoute<ScreenDestination.DocumentDetailsDestination>()
+                ) { backStackEntry ->
+                    val args = backStackEntry.toRoute<ScreenDestination.DocumentDetailsDestination>()
+                    val data = args.data
 
                     DocumentDetailsScreen(
-                        senderCode = args.data.senderCode,
-                        kksCode = args.data.kksCode,
-                        workType = args.data.workType,
-                        documentType = args.data.documentType,
-                        documentVersion = args.data.documentVersion,
-                        uploadDate = args.data.uploadDate,
+                        personCode = data.personCode,
+                        kksCode = data.kksCode,
+                        workType = data.workType,
+                        docType = data.docType,
+                        versionPrefix = data.versionPrefix,
+                        version = data.version,
+                        dateInput = data.dateInput,
+                        dateCreate = data.dateCreate
                     )
                 }
 
