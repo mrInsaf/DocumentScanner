@@ -1,5 +1,6 @@
 package com.mrinsaf.core.data.model
 
+import com.mrinsaf.core.data.repository.docWorkTypeRepository.DocWorkTypeRepository
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,4 +13,15 @@ data class DocumentDetails(
     val version: Int? = null,
     val dateInput: String,
     val dateCreate: String
-)
+) {
+    // Вычисляемые свойства для расшифровки
+    val workTypeDescription: String?
+        get() = workType?.let { DocWorkTypeRepository.getWorkType(it).also { println(it) }  ?.description }
+
+    val docTypeDescription: String?
+        get() = docType?.let { DocWorkTypeRepository.getDocType(it)?.description }
+
+    override fun toString(): String {
+        return "DocumentDetails(personCode=$personCode, kksCode='$kksCode', workType=$workType, docType=$docType, versionPrefix=$versionPrefix, version=$version, dateInput='$dateInput', dateCreate='$dateCreate', workTypeDescription=$workTypeDescription, docTypeDescription=$docTypeDescription)"
+    }
+}
