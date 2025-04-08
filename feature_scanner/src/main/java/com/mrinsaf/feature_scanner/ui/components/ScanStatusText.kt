@@ -10,7 +10,7 @@ import com.mrinsaf.core.data.model.DocumentDetails
 fun ScanStatusText(parsedQr: DocumentDetails?) {
     val (text, color) = when(parsedQr) {
         null -> "QR код документа пока не найден" to Color.Red
-        else -> "QR код документа найден!" to Color(0xFF2E7D32)
+        else -> "QR код документа найден!\nККС-код: ${parsedQr.kksCode}" to Color(0xFF2E7D32)
     }
 
     Text(
