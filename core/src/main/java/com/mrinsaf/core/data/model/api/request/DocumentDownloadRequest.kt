@@ -1,4 +1,4 @@
-package com.mrinsaf.core.domain.model.api.request
+package com.mrinsaf.core.data.model.api.request
 
 data class DocumentDownloadRequest(
     val kksCode: String,

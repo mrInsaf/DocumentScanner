@@ -1,10 +1,12 @@
-package com.mrinsaf.core.data.repository.api
+package com.mrinsaf.core.data.repository
 
 import com.mrinsaf.core.data.dataSource.api.DocumentApiService
-import com.mrinsaf.core.domain.model.api.request.DocumentDownloadRequest
-import com.mrinsaf.core.domain.model.api.request.DocumentInfoRequest
-import com.mrinsaf.core.domain.model.api.response.DocumentInfoResponse
-import com.mrinsaf.core.domain.repository.api.DocumentRepository
+import com.mrinsaf.core.data.model.api.request.DocumentDownloadRequest
+import com.mrinsaf.core.data.model.api.request.DocumentInfoRequest
+import com.mrinsaf.core.data.model.api.response.DocumentInfoResponse
+import com.mrinsaf.core.domain.repository.DocumentRepository
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 class DocumentRepositoryImpl(
     private val apiService: DocumentApiService,
@@ -29,5 +31,23 @@ class DocumentRepositoryImpl(
             version = params.version
         )
         return response.body()?.bytes() ?: throw Exception("Download failed")
+    }
+
+    override suspend fun register(login: String, password: String): String {
+        val response = apiService.register(login, password)
+        return handleAuthResponse(response)
+    }
+
+    override suspend fun login(login: String, password: String): String {
+        val response = apiService.login(login, password)
+        return handleAuthResponse(response)
+    }
+
+    private fun handleAuthResponse(response: Response<ResponseBody>): String {
+        return if (response.isSuccessful) {
+            response.body()?.string() ?: "Success"
+        } else {
+            throw Exception(response.errorBody()?.string() ?: "Error")
+        }
     }
 }

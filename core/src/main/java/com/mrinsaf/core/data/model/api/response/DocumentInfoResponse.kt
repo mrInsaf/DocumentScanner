@@ -1,4 +1,4 @@
-package com.mrinsaf.core.domain.model.api.response
+package com.mrinsaf.core.data.model.api.response
 
 data class DocumentInfoResponse(
     val document: String,

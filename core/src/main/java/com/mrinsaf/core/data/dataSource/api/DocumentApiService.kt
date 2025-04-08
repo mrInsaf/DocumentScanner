@@ -1,6 +1,6 @@
 package com.mrinsaf.core.data.dataSource.api
 
-import com.mrinsaf.core.domain.model.api.response.DocumentInfoResponse
+import com.mrinsaf.core.data.model.api.response.DocumentInfoResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Field
@@ -29,5 +29,19 @@ interface DocumentApiService {
         @Field("kksCode") kksCode: String,
         @Field("versionPrefix") versionPrefix: String,
         @Field("version") version: Int
+    ): Response<ResponseBody>
+
+    @POST("/login/registration")
+    @FormUrlEncoded
+    suspend fun register(
+        @Field("login") login: String,
+        @Field("password") password: String
+    ): Response<ResponseBody>
+
+    @POST("/login/login")
+    @FormUrlEncoded
+    suspend fun login(
+        @Field("login") login: String,
+        @Field("password") password: String
     ): Response<ResponseBody>
 }

@@ -18,6 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.mrinsaf.core.data.dataSource.api.DocumentApiService
+import com.mrinsaf.core.data.dataSource.api.RetrofitClient
+import com.mrinsaf.core.data.repository.DocumentRepositoryImpl
 import com.mrinsaf.core.domain.model.QrDocumentDetails
 import com.mrinsaf.core.domain.model.QrDocumentDetailsNavType
 import com.mrinsaf.core.domain.model.ScreenDestination
@@ -29,6 +32,9 @@ import kotlin.reflect.typeOf
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val apiService = RetrofitClient.documentApiService
+        val repository = DocumentRepositoryImpl(apiService)
 
         if (!hasPermissions()) {
             ActivityCompat.requestPermissions(
