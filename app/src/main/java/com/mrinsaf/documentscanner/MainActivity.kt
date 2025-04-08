@@ -18,8 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.mrinsaf.core.domain.model.DocumentDetails
-import com.mrinsaf.core.domain.model.DocumentDetailsNavType
+import com.mrinsaf.core.domain.model.QrDocumentDetails
+import com.mrinsaf.core.domain.model.QrDocumentDetailsNavType
 import com.mrinsaf.core.domain.model.ScreenDestination
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
@@ -86,7 +86,7 @@ fun DocumentScannerApp(
 
                 composable<ScreenDestination.DocumentDetailsDestination>(
                     typeMap = mapOf(
-                        typeOf<DocumentDetails>() to DocumentDetailsNavType
+                        typeOf<QrDocumentDetails>() to QrDocumentDetailsNavType
                     )
                 ) { backStackEntry ->
                     val args = backStackEntry.toRoute<ScreenDestination.DocumentDetailsDestination>()

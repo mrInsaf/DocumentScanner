@@ -4,10 +4,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.mrinsaf.core.domain.model.DocumentDetails
+import com.mrinsaf.core.domain.model.QrDocumentDetails
 
 @Composable
-fun ScanStatusText(parsedQr: DocumentDetails?) {
+fun ScanStatusText(parsedQr: QrDocumentDetails?) {
     val (text, color) = when(parsedQr) {
         null -> "QR код документа пока не найден" to Color.Red
         else -> "QR код документа найден!\nККС-код: ${parsedQr.kksCode}" to Color(0xFF2E7D32)

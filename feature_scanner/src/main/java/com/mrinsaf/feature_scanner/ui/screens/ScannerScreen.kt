@@ -28,7 +28,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mrinsaf.core.domain.model.DocumentDetails
+import com.mrinsaf.core.domain.model.QrDocumentDetails
 import com.mrinsaf.core.presentation.ui.components.MainButton
 import com.mrinsaf.core.presentation.ui.screens.BasicScreen
 import com.mrinsaf.feature_scanner.R
@@ -38,7 +38,7 @@ import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
 @Composable
 fun ScannerScreen(
     viewModel: ScannerViewModel = viewModel(),
-    onShowDocumentDetailsClick: (DocumentDetails) -> Unit,
+    onShowDocumentDetailsClick: (QrDocumentDetails) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current

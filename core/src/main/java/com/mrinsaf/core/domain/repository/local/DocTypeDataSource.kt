@@ -1,4 +1,4 @@
-package com.mrinsaf.core.domain.repository
+package com.mrinsaf.core.domain.repository.local
 
 import com.mrinsaf.core.domain.model.DocType
 

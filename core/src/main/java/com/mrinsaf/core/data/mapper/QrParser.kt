@@ -1,14 +1,14 @@
 package com.mrinsaf.core.data.mapper
 
-import com.mrinsaf.core.domain.model.DocumentDetails
+import com.mrinsaf.core.domain.model.QrDocumentDetails
 import kotlinx.serialization.json.Json
 
 object QrParser {
     private val jsonFormat = Json
 
-    fun parse(rawJson: String): DocumentDetails {
+    fun parse(rawJson: String): QrDocumentDetails {
         return try {
-            jsonFormat.decodeFromString<DocumentDetails>(rawJson)
+            jsonFormat.decodeFromString<QrDocumentDetails>(rawJson)
         } catch (e: Exception) {
             println(e)
             throw e

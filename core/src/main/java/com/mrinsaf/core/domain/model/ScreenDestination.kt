@@ -9,7 +9,7 @@ sealed class ScreenDestination() {
 
     @Serializable
     data class DocumentDetailsDestination(
-        val data: DocumentDetails
+        val data: QrDocumentDetails
     ): ScreenDestination()
 
     @Serializable
