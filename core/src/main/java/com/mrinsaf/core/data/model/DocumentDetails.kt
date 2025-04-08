@@ -1,15 +1,15 @@
 package com.mrinsaf.core.data.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class DocumentDetails(
-    val senderCode: String,
+    val personCode: Int,
     val kksCode: String,
-    val workType: String,
-    val documentType: String,
-    val documentVersion: String,
-    val uploadDate: String,
+    val workType: String? = null,
+    val docType: String? = null,
+    val versionPrefix: String? = null,
+    val version: Int? = null,
+    val dateInput: String,
+    val dateCreate: String
 )

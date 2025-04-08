@@ -18,33 +18,32 @@ import com.mrinsaf.feature_document_details.ui.components.DocumentDetailItem
 
 @Composable
 fun DocumentDetailsScreen(
-    senderCode: String,
+    personCode: Int,
     kksCode: String,
-    workType: String,
-    documentType: String,
-    documentVersion: String,
-    uploadDate: String,
+    workType: String?,
+    docType: String?,
+    versionPrefix: String?,
+    version: Int?,
+    dateInput: String,
+    dateCreate: String
 ) {
-    BasicScreen(
-        title = "Информация о документе"
-    ) {
+    BasicScreen(title = "Информация о документе") {
         Spacer(Modifier.height(24.dp))
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            DocumentDetailItem(title = "Код отправителя", value = senderCode)
-
+            DocumentDetailItem(title = "Код отправителя", value = personCode.toString())
             DocumentDetailItem(title = "ККС Код", value = kksCode)
-
-            DocumentDetailItem(title = "Тип работы", value = workType)
-
-            DocumentDetailItem(title = "Тип документа", value = documentType)
-
-            DocumentDetailItem(title = "Версия документа", value = documentVersion)
-
-            DocumentDetailItem(title = "Дата загрузки", value = uploadDate)
+            DocumentDetailItem(title = "Тип работы", value = workType ?: "Не указано")
+            DocumentDetailItem(title = "Тип документа", value = docType ?: "Не указано")
+            DocumentDetailItem(
+                title = "Версия документа",
+                value = listOfNotNull(versionPrefix, version).joinToString(".")
+            )
+            DocumentDetailItem(title = "Дата загрузки", value = dateInput)
+            DocumentDetailItem(title = "Дата создания", value = dateCreate)
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,10 +51,9 @@ fun DocumentDetailsScreen(
             ) {
                 MainButton(
                     text = "ПРОСМОТР ДОКУМЕНТА",
-                    onClick = {println("yo")}
+                    onClick = { /* Навигация */ }
                 )
             }
         }
     }
 }
-
