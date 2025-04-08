@@ -1,11 +1,11 @@
-package com.mrinsaf.core.data.repository.docWorkTypeRepository
+package com.mrinsaf.core.data.repository
 
-import com.mrinsaf.core.data.model.DocType
-import com.mrinsaf.core.data.model.WorkType
+import com.mrinsaf.core.data.dataSource.LocalWorkTypeDataSource
 import com.mrinsaf.core.data.repository.docDocTypeRepository.docType.LocalDocTypeDataSource
-import com.mrinsaf.core.data.repository.docWorkTypeRepository.docType.DocTypeDataSource
-import com.mrinsaf.core.data.repository.docWorkTypeRepository.workType.LocalWorkTypeDataSource
-import com.mrinsaf.core.data.repository.docWorkTypeRepository.workType.WorkTypeDataSource
+import com.mrinsaf.core.domain.model.DocType
+import com.mrinsaf.core.domain.model.WorkType
+import com.mrinsaf.core.domain.repository.DocTypeDataSource
+import com.mrinsaf.core.domain.repository.WorkTypeDataSource
 
 object DocWorkTypeRepository {
 

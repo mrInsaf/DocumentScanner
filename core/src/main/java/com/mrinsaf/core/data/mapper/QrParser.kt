@@ -1,6 +1,6 @@
-package com.mrinsaf.core.data.parser
+package com.mrinsaf.core.data.mapper
 
-import com.mrinsaf.core.data.model.DocumentDetails
+import com.mrinsaf.core.domain.model.DocumentDetails
 import kotlinx.serialization.json.Json
 
 object QrParser {

@@ -1,7 +1,7 @@
 package com.mrinsaf.core.data.repository.docDocTypeRepository.docType
 
-import com.mrinsaf.core.data.model.DocType
-import com.mrinsaf.core.data.repository.docWorkTypeRepository.docType.DocTypeDataSource
+import com.mrinsaf.core.domain.model.DocType
+import com.mrinsaf.core.domain.repository.DocTypeDataSource
 
 object LocalDocTypeDataSource : DocTypeDataSource {
     private val map = mapOf(

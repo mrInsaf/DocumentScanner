@@ -1,6 +1,5 @@
 package com.mrinsaf.feature_document_details.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mrinsaf.core.ui.components.MainButton
-import com.mrinsaf.core.ui.screens.BasicScreen
+import com.mrinsaf.core.presentation.ui.components.MainButton
+import com.mrinsaf.core.presentation.ui.screens.BasicScreen
 import com.mrinsaf.feature_document_details.ui.components.DocumentDetailItem
 
 @Composable

@@ -1,6 +1,7 @@
-package com.mrinsaf.core.data.repository.docWorkTypeRepository.workType
+package com.mrinsaf.core.data.dataSource
 
-import com.mrinsaf.core.data.model.WorkType
+import com.mrinsaf.core.domain.model.WorkType
+import com.mrinsaf.core.domain.repository.WorkTypeDataSource
 
 object LocalWorkTypeDataSource : WorkTypeDataSource {
     private val map = mapOf(

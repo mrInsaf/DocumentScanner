@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.mrinsaf.core.data.model.DocumentDetails
-import com.mrinsaf.core.data.parser.QrParser
+import com.mrinsaf.core.domain.model.DocumentDetails
+import com.mrinsaf.core.data.mapper.QrParser
 import com.mrinsaf.feature_scanner.data.hardware.CameraController
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 class ScannerViewModel : ViewModel() {

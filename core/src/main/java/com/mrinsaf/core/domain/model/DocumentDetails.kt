@@ -1,6 +1,6 @@
-package com.mrinsaf.core.data.model
+package com.mrinsaf.core.domain.model
 
-import com.mrinsaf.core.data.repository.docWorkTypeRepository.DocWorkTypeRepository
+import com.mrinsaf.core.data.repository.DocWorkTypeRepository
 import kotlinx.serialization.Serializable
 
 @Serializable

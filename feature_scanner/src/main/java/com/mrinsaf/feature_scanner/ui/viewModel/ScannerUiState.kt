@@ -1,6 +1,6 @@
 package com.mrinsaf.feature_scanner.ui.viewModel
 
-import com.mrinsaf.core.data.model.DocumentDetails
+import com.mrinsaf.core.domain.model.DocumentDetails
 
 data class ScannerUiState(
     var qrResult: String = "",

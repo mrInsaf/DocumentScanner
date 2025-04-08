@@ -1,4 +1,4 @@
-package com.mrinsaf.core.ui.screens
+package com.mrinsaf.core.presentation.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

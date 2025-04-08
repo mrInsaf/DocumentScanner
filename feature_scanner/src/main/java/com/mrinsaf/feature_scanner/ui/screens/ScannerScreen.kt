@@ -2,7 +2,6 @@ package com.mrinsaf.feature_scanner.ui.screens
 
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +28,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mrinsaf.core.data.model.DocumentDetails
-import com.mrinsaf.core.ui.components.MainButton
-import com.mrinsaf.core.ui.screens.BasicScreen
+import com.mrinsaf.core.domain.model.DocumentDetails
+import com.mrinsaf.core.presentation.ui.components.MainButton
+import com.mrinsaf.core.presentation.ui.screens.BasicScreen
 import com.mrinsaf.feature_scanner.R
 import com.mrinsaf.feature_scanner.ui.components.ScanStatusText
 import com.mrinsaf.feature_scanner.ui.viewModel.ScannerViewModel
