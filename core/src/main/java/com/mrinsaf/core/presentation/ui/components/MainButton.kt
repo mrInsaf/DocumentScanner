@@ -1,4 +1,4 @@
-package com.mrinsaf.core.ui.components
+package com.mrinsaf.core.presentation.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth

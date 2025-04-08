@@ -1,4 +1,4 @@
-package com.mrinsaf.core.data.model
+package com.mrinsaf.core.domain.model
 
 import android.net.Uri
 import android.os.Bundle

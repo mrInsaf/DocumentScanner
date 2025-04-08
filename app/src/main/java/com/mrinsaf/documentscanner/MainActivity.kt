@@ -18,9 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.mrinsaf.core.data.model.DocumentDetails
-import com.mrinsaf.core.data.model.DocumentDetailsNavType
-import com.mrinsaf.core.data.model.ScreenDestination
+import com.mrinsaf.core.domain.model.DocumentDetails
+import com.mrinsaf.core.domain.model.DocumentDetailsNavType
+import com.mrinsaf.core.domain.model.ScreenDestination
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen

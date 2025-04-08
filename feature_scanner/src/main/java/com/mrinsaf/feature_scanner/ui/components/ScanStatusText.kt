@@ -4,7 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.mrinsaf.core.data.model.DocumentDetails
+import com.mrinsaf.core.domain.model.DocumentDetails
 
 @Composable
 fun ScanStatusText(parsedQr: DocumentDetails?) {
