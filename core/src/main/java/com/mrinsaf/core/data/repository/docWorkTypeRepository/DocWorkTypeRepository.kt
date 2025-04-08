@@ -2,8 +2,8 @@ package com.mrinsaf.core.data.repository.docWorkTypeRepository
 
 import com.mrinsaf.core.data.model.DocType
 import com.mrinsaf.core.data.model.WorkType
+import com.mrinsaf.core.data.repository.docDocTypeRepository.docType.LocalDocTypeDataSource
 import com.mrinsaf.core.data.repository.docWorkTypeRepository.docType.DocTypeDataSource
-import com.mrinsaf.core.data.repository.docWorkTypeRepository.docType.LocalDocTypeDataSource
 import com.mrinsaf.core.data.repository.docWorkTypeRepository.workType.LocalWorkTypeDataSource
 import com.mrinsaf.core.data.repository.docWorkTypeRepository.workType.WorkTypeDataSource
 
