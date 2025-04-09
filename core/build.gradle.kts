@@ -40,6 +40,7 @@ android {
 dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+    implementation (libs.logging.interceptor)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

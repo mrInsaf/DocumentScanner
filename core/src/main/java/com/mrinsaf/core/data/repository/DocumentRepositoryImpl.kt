@@ -43,6 +43,10 @@ class DocumentRepositoryImpl(
         return handleAuthResponse(response)
     }
 
+    override fun convertDocxToPdf(file: ByteArray): ByteArray {
+        TODO("Not yet implemented")
+    }
+
     private fun handleAuthResponse(response: Response<ResponseBody>): String {
         return if (response.isSuccessful) {
             response.body()?.string() ?: "Success"

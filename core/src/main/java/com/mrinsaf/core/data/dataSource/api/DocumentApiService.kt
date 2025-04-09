@@ -9,7 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.Streaming
 
 interface DocumentApiService {
-    @POST("/main/getInformation")
+    @POST("main/getInformation")
     @FormUrlEncoded
     suspend fun getDocumentInfo(
         @Field("personCode") personCode: Int,
@@ -22,7 +22,7 @@ interface DocumentApiService {
         @Field("dateCreate") dateCreate: String
     ): DocumentInfoResponse
 
-    @POST("/main/getVersionDocument")
+    @POST("main/getVersionDocument")
     @FormUrlEncoded
     @Streaming
     suspend fun downloadDocument(
@@ -31,14 +31,14 @@ interface DocumentApiService {
         @Field("version") version: Int
     ): Response<ResponseBody>
 
-    @POST("/login/registration")
+    @POST("login/registration")
     @FormUrlEncoded
     suspend fun register(
         @Field("login") login: String,
         @Field("password") password: String
     ): Response<ResponseBody>
 
-    @POST("/login/login")
+    @POST("login/login")
     @FormUrlEncoded
     suspend fun login(
         @Field("login") login: String,
