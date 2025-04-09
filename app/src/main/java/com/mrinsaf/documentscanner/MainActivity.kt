@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,12 +22,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.mrinsaf.core.data.dataSource.api.DocumentApiService
 import com.mrinsaf.core.data.dataSource.api.RetrofitClient
+import com.mrinsaf.core.data.mapper.DocumentMapper
 import com.mrinsaf.core.data.repository.DocumentRepositoryImpl
 import com.mrinsaf.core.domain.model.QrDocumentDetails
 import com.mrinsaf.core.domain.model.QrDocumentDetailsNavType
 import com.mrinsaf.core.domain.model.ScreenDestination
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
+import com.mrinsaf.feature_document_details.ui.viewModel.DocumentDetailsViewModel
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -39,6 +42,11 @@ class MainActivity : ComponentActivity() {
 
         val apiService = RetrofitClient.documentApiService
         val repository = DocumentRepositoryImpl(apiService)
+
+        val documentDetailsViewModel = DocumentDetailsViewModel(
+            repository = repository,
+            mapper = DocumentMapper
+        )
 
         lifecycleScope.launch {
             try {
@@ -65,7 +73,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DocumentScannerTheme {
-                DocumentScannerApp()
+                DocumentScannerApp(
+                    documentDetailsViewModel = documentDetailsViewModel
+                )
             }
         }
     }
@@ -82,6 +92,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DocumentScannerApp(
+    documentDetailsViewModel: DocumentDetailsViewModel
 ) {
     val navController = rememberNavController()
 
@@ -123,7 +134,12 @@ fun DocumentScannerApp(
                         versionPrefix = data.versionPrefix,
                         version = data.version,
                         dateInput = data.dateInput,
-                        dateCreate = data.dateCreate
+                        dateCreate = data.dateCreate,
+                        onReviewDocumentClick = {
+                            documentDetailsViewModel.onReviewDocumentClick(
+                                qrDocumentDetails = data
+                            )
+                        }
                     )
                 }
 

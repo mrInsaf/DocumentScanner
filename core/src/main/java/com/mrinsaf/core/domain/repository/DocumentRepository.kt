@@ -10,4 +10,6 @@ interface DocumentRepository {
 
     suspend fun register(login: String, password: String): String
     suspend fun login(login: String, password: String): String
+
+    fun convertDocxToPdf(file: ByteArray): ByteArray
 }
