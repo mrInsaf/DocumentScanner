@@ -24,7 +24,8 @@ fun DocumentDetailsScreen(
     versionPrefix: String?,
     version: Int?,
     dateInput: String,
-    dateCreate: String
+    dateCreate: String,
+    onReviewDocumentClick: () -> Unit,
 ) {
     BasicScreen(title = "Информация о документе") {
         Spacer(Modifier.height(24.dp))
@@ -50,7 +51,7 @@ fun DocumentDetailsScreen(
             ) {
                 MainButton(
                     text = "ПРОСМОТР ДОКУМЕНТА",
-                    onClick = { /* Навигация */ }
+                    onClick = { onReviewDocumentClick() }
                 )
             }
         }
