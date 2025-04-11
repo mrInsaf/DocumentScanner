@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -126,6 +128,16 @@ fun DocumentScannerApp(
                     val args = backStackEntry.toRoute<ScreenDestination.DocumentDetailsDestination>()
                     val data = args.data
 
+                    LaunchedEffect(data) {
+                        documentDetailsViewModel.getDocumentInformation(
+                            kksCode = data.kksCode,
+                            version = data.version,
+                            versionPrefix = data.versionPrefix,
+                        )
+                    }
+
+                    val documentInfo = documentDetailsViewModel.documentInfo.collectAsStateWithLifecycle()
+
                     DocumentDetailsScreen(
                         personCode = data.personCode,
                         kksCode = data.kksCode,
@@ -135,11 +147,13 @@ fun DocumentScannerApp(
                         version = data.version,
                         dateInput = data.dateInput,
                         dateCreate = data.dateCreate,
+                        newVersion = documentInfo.value?.newVersion,
+                        newVersionDateCreate = null,
                         onReviewDocumentClick = {
                             documentDetailsViewModel.onReviewDocumentClick(
                                 qrDocumentDetails = data
                             )
-                        }
+                        },
                     )
                 }
 

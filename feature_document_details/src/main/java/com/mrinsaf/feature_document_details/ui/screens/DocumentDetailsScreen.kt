@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +26,8 @@ fun DocumentDetailsScreen(
     version: Int?,
     dateInput: String,
     dateCreate: String,
+    newVersion: Int?,
+    newVersionDateCreate: String?,
     onReviewDocumentClick: () -> Unit,
 ) {
     BasicScreen(title = "Информация о документе") {
@@ -53,6 +56,33 @@ fun DocumentDetailsScreen(
                     text = "ПРОСМОТР ДОКУМЕНТА",
                     onClick = { onReviewDocumentClick() }
                 )
+            }
+
+            newVersion?.let {
+
+                Text(
+                    text = "Обнаружена новая версия документа",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+
+                DocumentDetailItem(
+                    title = "Версия",
+                    value = it.toString()
+                )
+                DocumentDetailItem(
+                    title = "Дата загрузки",
+                    value = newVersionDateCreate ?: "Не указано"
+                )
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    MainButton(
+                        text = "ПРОСМОТР НОВОГО ДОКУМЕНТА",
+                        onClick = { onReviewDocumentClick() }
+                    )
+                }
             }
         }
     }
