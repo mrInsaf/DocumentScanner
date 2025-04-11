@@ -12,14 +12,9 @@ interface DocumentApiService {
     @POST("main/getInformation")
     @FormUrlEncoded
     suspend fun getDocumentInfo(
-        @Field("personCode") personCode: Int,
         @Field("kksCode") kksCode: String,
-        @Field("workType") workType: String,
-        @Field("docType") docType: String,
         @Field("versionPrefix") versionPrefix: String,
         @Field("version") version: Int,
-        @Field("dateInput") dateInput: String,
-        @Field("dateCreate") dateCreate: String
     ): DocumentInfoResponse
 
     @POST("main/getVersionDocument")

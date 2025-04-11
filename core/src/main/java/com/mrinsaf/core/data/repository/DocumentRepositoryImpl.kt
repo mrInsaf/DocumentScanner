@@ -13,14 +13,9 @@ class DocumentRepositoryImpl(
 ) : DocumentRepository {
     override suspend fun getDocumentInfo(params: DocumentInfoRequest): DocumentInfoResponse {
         return apiService.getDocumentInfo(
-            personCode = params.personCode,
             kksCode = params.kksCode,
-            workType = params.workType,
-            docType = params.docType,
             versionPrefix = params.versionPrefix,
             version = params.version,
-            dateInput = params.dateInput,
-            dateCreate = params.dateCreate
         )
     }
 
