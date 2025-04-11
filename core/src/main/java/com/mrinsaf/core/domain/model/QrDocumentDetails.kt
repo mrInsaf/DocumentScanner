@@ -9,8 +9,8 @@ data class QrDocumentDetails(
     val kksCode: String,
     val workType: String? = null,
     val docType: String? = null,
-    val versionPrefix: String? = null,
-    val version: Int? = null,
+    val versionPrefix: String,
+    val version: Int,
     val dateInput: String,
     val dateCreate: String
 ) {
