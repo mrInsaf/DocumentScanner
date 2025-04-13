@@ -17,7 +17,7 @@ interface DocumentApiService {
         @Field("version") version: Int,
     ): DocumentInfoResponse
 
-    @POST("main/getVersionDocument")
+    @POST("main/getNewVersionDocument")
     @FormUrlEncoded
     @Streaming
     suspend fun downloadDocument(
