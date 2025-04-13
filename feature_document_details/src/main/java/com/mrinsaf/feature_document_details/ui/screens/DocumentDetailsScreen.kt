@@ -1,18 +1,26 @@
 package com.mrinsaf.feature_document_details.ui.screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.mrinsaf.core.presentation.ui.components.MainButton
+import com.mrinsaf.core.presentation.ui.components.SecondaryButton
 import com.mrinsaf.core.presentation.ui.screens.BasicScreen
 import com.mrinsaf.feature_document_details.ui.components.DocumentDetailItem
 
@@ -58,12 +66,23 @@ fun DocumentDetailsScreen(
                 )
             }
 
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(vertical = 12.dp)
+                    .fillMaxWidth(),
+                thickness = 1.dp,
+                color = Color.LightGray
+            )
+
             newVersion?.let {
 
                 Text(
                     text = "Обнаружена новая версия документа",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.primary,
                 )
+
+                Spacer(Modifier.height(12.dp))
 
                 DocumentDetailItem(
                     title = "Версия",

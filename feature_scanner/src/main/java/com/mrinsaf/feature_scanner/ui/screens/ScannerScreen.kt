@@ -68,6 +68,7 @@ fun ScannerScreen(
             Text(
                 text = stringResource(R.string.scan_code),
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 

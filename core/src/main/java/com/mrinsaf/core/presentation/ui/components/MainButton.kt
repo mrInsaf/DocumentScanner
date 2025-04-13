@@ -25,7 +25,7 @@ fun MainButton(
     enabled: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(vertical = 12.dp, horizontal = 24.dp),
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        containerColor = Color(0xFF0066CC),
+        containerColor = MaterialTheme.colorScheme.primary,
         contentColor = Color.White
     )
 ) {
