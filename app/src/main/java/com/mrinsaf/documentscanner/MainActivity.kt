@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,10 +21,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.mrinsaf.core.data.dataSource.api.DocumentApiService
-import com.mrinsaf.core.data.dataSource.api.RetrofitClient
+import com.mrinsaf.core.data.dataSource.api.DocumentFabricRetrofitClient
+import com.mrinsaf.core.data.dataSource.api.PdfConverterRetrofitClient
 import com.mrinsaf.core.data.mapper.DocumentMapper
 import com.mrinsaf.core.data.repository.DocumentRepositoryImpl
+import com.mrinsaf.core.data.repository.PdfConverterRepository
 import com.mrinsaf.core.domain.model.QrDocumentDetails
 import com.mrinsaf.core.domain.model.QrDocumentDetailsNavType
 import com.mrinsaf.core.domain.model.ScreenDestination
@@ -33,8 +33,6 @@ import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
 import com.mrinsaf.feature_document_details.ui.viewModel.DocumentDetailsViewModel
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
@@ -42,17 +40,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val apiService = RetrofitClient.documentApiService
-        val repository = DocumentRepositoryImpl(apiService)
+        val documentApiService = DocumentFabricRetrofitClient.documentApiService
+        val documentRepository = DocumentRepositoryImpl(documentApiService)
+
+        val pdfConverterApiService = PdfConverterRetrofitClient.pdfConverterApiService
+        val pdfConverterRepository = PdfConverterRepository(pdfConverterApiService)
 
         val documentDetailsViewModel = DocumentDetailsViewModel(
-            repository = repository,
+            documentRepository = documentRepository,
+            pdfConverterRepository = pdfConverterRepository,
             mapper = DocumentMapper
         )
 
         lifecycleScope.launch {
             try {
-                repository.login(
+                documentRepository.login(
                     login = "zxc",
                     password = "zxc"
                 )

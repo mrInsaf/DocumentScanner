@@ -8,7 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitClient {
+object DocumentFabricRetrofitClient {
     private const val BASE_URL = "https://mr-morkow.ru:8888/document_api/QRCodeFactory/"
 
     // Добавляем логгер
