@@ -1,6 +1,7 @@
 package com.mrinsaf.documentscanner
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,8 +28,9 @@ import com.mrinsaf.core.data.mapper.DocumentMapper
 import com.mrinsaf.core.data.repository.DocumentRepositoryImpl
 import com.mrinsaf.core.data.repository.PdfConverterRepository
 import com.mrinsaf.core.domain.model.QrDocumentDetails
-import com.mrinsaf.core.domain.model.QrDocumentDetailsNavType
+import com.mrinsaf.core.presentation.QrDocumentDetailsNavType
 import com.mrinsaf.core.domain.model.ScreenDestination
+import com.mrinsaf.core.presentation.ByteArrayNavType
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
 import com.mrinsaf.feature_document_details.ui.viewModel.DocumentDetailsViewModel
@@ -78,7 +80,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             DocumentScannerTheme {
                 DocumentScannerApp(
-                    documentDetailsViewModel = documentDetailsViewModel
+                    documentDetailsViewModel = documentDetailsViewModel,
+                    context = this
                 )
             }
         }
@@ -96,7 +99,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DocumentScannerApp(
-    documentDetailsViewModel: DocumentDetailsViewModel
+    documentDetailsViewModel: DocumentDetailsViewModel,
+    context: Context
 ) {
     val navController = rememberNavController()
 
@@ -107,10 +111,10 @@ fun DocumentScannerApp(
                 .padding(it)
         ) {
             NavHost(
-                startDestination = ScreenDestination.Scanner,
+                startDestination = ScreenDestination.ScannerDestination,
                 navController = navController,
             ) {
-                composable<ScreenDestination.Scanner> {
+                composable<ScreenDestination.ScannerDestination> {
                     ScannerScreen(
                         onShowDocumentDetailsClick = { documentDetails ->
                             navController.navigate(
@@ -139,6 +143,7 @@ fun DocumentScannerApp(
                     }
 
                     val documentInfo = documentDetailsViewModel.documentInfo.collectAsStateWithLifecycle()
+                    val pdfBytes = documentDetailsViewModel.pdfBytes.collectAsStateWithLifecycle()
 
                     DocumentDetailsScreen(
                         personCode = data.personCode,
@@ -155,12 +160,28 @@ fun DocumentScannerApp(
                             documentDetailsViewModel.onReviewDocumentClick(
                                 qrDocumentDetails = data
                             )
+                            pdfBytes.value?.let {
+                                navController.navigate(
+                                    ScreenDestination.DocumentReaderDestination(
+                                        pdfByteArray = it
+                                    )
+                                )
+                            }
                         },
                     )
                 }
 
-                composable<ScreenDestination.DocumentReader> {
-
+                composable<ScreenDestination.DocumentReaderDestination>(
+                    typeMap = mapOf(
+                        typeOf<ByteArray>() to ByteArrayNavType
+                    )
+                ) { backStackEntry ->
+                    val args = backStackEntry.toRoute<ScreenDestination.DocumentReaderDestination>()
+                    val pdfBytes = args.pdfByteArray
+//                    DocumentReaderScreen(
+//                        pdfBytes = pdfBytes,
+//                        context = context
+//                    )
                 }
             }
         }
