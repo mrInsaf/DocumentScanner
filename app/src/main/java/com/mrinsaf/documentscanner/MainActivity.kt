@@ -1,9 +1,11 @@
 package com.mrinsaf.documentscanner
 
+import DocumentReaderScreen
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,15 +33,20 @@ import com.mrinsaf.core.data.mapper.DocumentMapper
 import com.mrinsaf.core.data.repository.DocumentRepositoryImpl
 import com.mrinsaf.core.data.repository.PdfConverterRepository
 import com.mrinsaf.core.domain.model.QrDocumentDetails
-import com.mrinsaf.core.presentation.QrDocumentDetailsNavType
 import com.mrinsaf.core.domain.model.ScreenDestination
-import com.mrinsaf.core.presentation.ByteArrayNavType
 import com.mrinsaf.documentscanner.ui.theme.DocumentScannerTheme
 import com.mrinsaf.feature_document_details.ui.screens.DocumentDetailsScreen
 import com.mrinsaf.feature_document_details.ui.viewModel.DocumentDetailsViewModel
 import com.mrinsaf.feature_scanner.ui.screens.ScannerScreen
 import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
+import com.mrinsaf.core.presentation.ByteArrayNavType
+import com.mrinsaf.core.presentation.QrDocumentDetailsNavType
+import com.mrinsaf.feature_document_details.ui.viewModel.DocumentDetailsViewModel.PdfEvent
+import com.mrinsaf.feature_document_reader.ui.viewModel.DocumentReaderViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +61,11 @@ class MainActivity : ComponentActivity() {
         val documentDetailsViewModel = DocumentDetailsViewModel(
             documentRepository = documentRepository,
             pdfConverterRepository = pdfConverterRepository,
-            mapper = DocumentMapper
+            mapper = DocumentMapper,
         )
+
+        val documentReaderViewModel = DocumentReaderViewModel()
+
 
         lifecycleScope.launch {
             try {
@@ -81,6 +94,7 @@ class MainActivity : ComponentActivity() {
             DocumentScannerTheme {
                 DocumentScannerApp(
                     documentDetailsViewModel = documentDetailsViewModel,
+                    documentReaderViewModel = documentReaderViewModel,
                     context = this
                 )
             }
@@ -100,6 +114,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DocumentScannerApp(
     documentDetailsViewModel: DocumentDetailsViewModel,
+    documentReaderViewModel : DocumentReaderViewModel,
     context: Context
 ) {
     val navController = rememberNavController()
@@ -134,6 +149,11 @@ fun DocumentScannerApp(
                     val args = backStackEntry.toRoute<ScreenDestination.DocumentDetailsDestination>()
                     val data = args.data
 
+                    val documentInfo = documentDetailsViewModel.documentInfo.collectAsStateWithLifecycle()
+                    val pdfBytes = documentDetailsViewModel.pdfBytes.collectAsState()
+
+                    val scope = rememberCoroutineScope()
+
                     LaunchedEffect(data) {
                         documentDetailsViewModel.getDocumentInformation(
                             kksCode = data.kksCode,
@@ -142,8 +162,20 @@ fun DocumentScannerApp(
                         )
                     }
 
-                    val documentInfo = documentDetailsViewModel.documentInfo.collectAsStateWithLifecycle()
-                    val pdfBytes = documentDetailsViewModel.pdfBytes.collectAsStateWithLifecycle()
+                    LaunchedEffect(Unit) {
+                        documentDetailsViewModel.pdfEvents.collect { event ->
+                            when (event) {
+                                is PdfEvent.Success -> {
+                                    navController.navigate(
+                                        ScreenDestination.DocumentReaderDestination(event.bytes)
+                                    )
+                                }
+                                is PdfEvent.Error -> {
+                                    println(event.message)
+                                }
+                            }
+                        }
+                    }
 
                     DocumentDetailsScreen(
                         personCode = data.personCode,
@@ -157,15 +189,12 @@ fun DocumentScannerApp(
                         newVersion = documentInfo.value?.newVersion,
                         newVersionDateCreate = null,
                         onReviewDocumentClick = {
-                            documentDetailsViewModel.onReviewDocumentClick(
-                                qrDocumentDetails = data
-                            )
-                            pdfBytes.value?.let {
-                                navController.navigate(
-                                    ScreenDestination.DocumentReaderDestination(
-                                        pdfByteArray = it
-                                    )
+                            scope.launch {
+                                println("Кнопка нажата")
+                                documentDetailsViewModel.onReviewDocumentClick(
+                                    qrDocumentDetails = data,
                                 )
+                                println("Документ скачан и сконвертирован: ${pdfBytes.value}")
                             }
                         },
                     )
@@ -178,10 +207,11 @@ fun DocumentScannerApp(
                 ) { backStackEntry ->
                     val args = backStackEntry.toRoute<ScreenDestination.DocumentReaderDestination>()
                     val pdfBytes = args.pdfByteArray
-//                    DocumentReaderScreen(
-//                        pdfBytes = pdfBytes,
-//                        context = context
-//                    )
+                    DocumentReaderScreen(
+                        pdfBytes = pdfBytes,
+                        context = context,
+                        viewModel = documentReaderViewModel
+                    )
                 }
             }
         }
