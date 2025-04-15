@@ -104,7 +104,12 @@ class DocumentDetailsViewModel(
                         version = version
                     )
                 )
-                println("getDocumentInformation: Информация о документе получена: $documentInformation")
+                println("getDocumentInformation: Информация о документе получена: ${documentInformation}")
+                println("document: ${documentInformation.document}")
+                println("kksCode: ${documentInformation.kksCode}")
+                println("versionPrefix: ${documentInformation.versionPrefix}")
+                println("version: ${documentInformation.version}")
+                println("newVersion: ${documentInformation.newVersion}")
                 documentInfo.value = documentInformation
             } catch (e: Exception) {
                 println("getDocumentInformation: Произошла ошибка: ${e.message}")
