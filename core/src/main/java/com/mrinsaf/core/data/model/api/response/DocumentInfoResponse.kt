@@ -5,5 +5,5 @@ data class DocumentInfoResponse(
     val kksCode: String,
     val versionPrefix: String,
     val version: Int,
-    val newVersion: Int
+    val newVersion: Int?
 )
