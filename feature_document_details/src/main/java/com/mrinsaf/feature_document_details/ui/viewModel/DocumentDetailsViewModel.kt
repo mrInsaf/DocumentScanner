@@ -2,17 +2,14 @@ package com.mrinsaf.feature_document_details.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import com.mrinsaf.core.data.mapper.DocumentMapper
 import com.mrinsaf.core.data.model.api.request.DocumentInfoRequest
 import com.mrinsaf.core.data.model.api.response.DocumentInfoResponse
 import com.mrinsaf.core.data.repository.PdfConverterRepository
 import com.mrinsaf.core.domain.model.QrDocumentDetails
-import com.mrinsaf.core.domain.model.ScreenDestination
 import com.mrinsaf.core.domain.repository.DocumentRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class DocumentDetailsViewModel(
@@ -35,11 +32,21 @@ class DocumentDetailsViewModel(
         data class Error(val message: String) : PdfEvent()
     }
 
-    suspend fun onReviewDocumentClick(
+    suspend fun onReviewOriginalDocumentClick(
         qrDocumentDetails: QrDocumentDetails,
     ) {
         println("onReviewDocumentClick: Начало обработки документа")
         handleDocumentConversion(qrDocumentDetails)
+        println("onReviewDocumentClick: Завершение обработки документа")
+    }
+
+    suspend fun onReviewNewDocumentClick(
+        qrDocumentDetails: QrDocumentDetails,
+        newVersion: Int,
+    ) {
+        println("onReviewDocumentClick: Начало обработки документа")
+        val newVersionDocumentDetails = qrDocumentDetails.copy(version = newVersion)
+        handleDocumentConversion(newVersionDocumentDetails)
         println("onReviewDocumentClick: Завершение обработки документа")
     }
 

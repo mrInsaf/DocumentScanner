@@ -5,7 +5,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
@@ -44,9 +42,6 @@ import com.mrinsaf.core.presentation.ByteArrayNavType
 import com.mrinsaf.core.presentation.QrDocumentDetailsNavType
 import com.mrinsaf.feature_document_details.ui.viewModel.DocumentDetailsViewModel.PdfEvent
 import com.mrinsaf.feature_document_reader.ui.viewModel.DocumentReaderViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -191,8 +186,18 @@ fun DocumentScannerApp(
                         onReviewDocumentClick = {
                             scope.launch {
                                 println("Кнопка нажата")
-                                documentDetailsViewModel.onReviewDocumentClick(
+                                documentDetailsViewModel.onReviewOriginalDocumentClick(
                                     qrDocumentDetails = data,
+                                )
+                                println("Документ скачан и сконвертирован: ${pdfBytes.value}")
+                            }
+                        },
+                        onReviewNewDocumentClick = {
+                            scope.launch {
+                                println("Кнопка нажата")
+                                documentDetailsViewModel.onReviewNewDocumentClick(
+                                    qrDocumentDetails = data,
+                                    newVersion = documentInfo.value?.newVersion ?: 0
                                 )
                                 println("Документ скачан и сконвертирован: ${pdfBytes.value}")
                             }
