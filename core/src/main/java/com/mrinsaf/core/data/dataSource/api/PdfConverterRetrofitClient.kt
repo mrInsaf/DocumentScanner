@@ -1,5 +1,6 @@
 package com.mrinsaf.core.data.dataSource.api
 
+import com.mrinsaf.core.common.PDF_CONVERTER_BASE_URL
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
@@ -9,7 +10,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object PdfConverterRetrofitClient {
-    private const val BASE_URL = "https://mr-morkow.ru:8888/convert-docx-to-pdf/"
 
     // Добавляем логгер
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -35,7 +35,7 @@ object PdfConverterRetrofitClient {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(PDF_CONVERTER_BASE_URL)
         .client(okHttpClient) // Указываем кастомный клиент
         .addConverterFactory(GsonConverterFactory.create())
         .build()
